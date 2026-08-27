@@ -126,6 +126,9 @@ fn challenge_to_json(challenge: &PaymentChallenge) -> Result<Value, String> {
         obj["opaque"] =
             opaque_to_json(opaque).map_err(|e| format!("Invalid JSON in opaque: {}", e))?;
     }
+    if let Some(ref header) = challenge.header {
+        obj["header"] = json!(header);
+    }
 
     Ok(obj)
 }
@@ -157,6 +160,9 @@ fn credential_to_json(credential: &PaymentCredential) -> Result<Value, String> {
     }
     if let Some(ref opaque) = credential.challenge.opaque {
         challenge_obj["opaque"] = opaque_to_json(opaque)?;
+    }
+    if let Some(ref header) = credential.challenge.header {
+        challenge_obj["header"] = json!(header);
     }
 
     let mut obj = json!({
@@ -231,6 +237,7 @@ fn handle_format_www_authenticate(input: &str) {
                         return;
                     }
                 },
+                header: opt_str_field(&value, "header"),
             };
 
             match format_www_authenticate(&challenge) {
@@ -270,6 +277,7 @@ fn handle_format_authorization(input: &str) {
                         return;
                     }
                 },
+                header: opt_str_field(&challenge_val, "header"),
             };
 
             let payload_val = value.get("payload").cloned().unwrap_or(json!({}));

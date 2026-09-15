@@ -4,6 +4,7 @@ use mpp::protocol::core::{
     format_www_authenticate, parse_authorization, parse_receipt, parse_www_authenticate,
     Base64UrlJson, ChallengeEcho, PaymentChallenge, PaymentCredential, Receipt,
 };
+use serde::Serialize;
 use serde_json::{json, Value};
 use sha2::Sha256;
 use std::io::{self, Read, Write};
@@ -99,6 +100,10 @@ fn opaque_to_json(opaque: &Base64UrlJson) -> Result<Value, String> {
     }
 }
 
+fn optional_serialized_field<T: Serialize>(value: &T, field: &str) -> Option<Value> {
+    serde_json::to_value(value).ok()?.get(field).cloned()
+}
+
 fn challenge_to_json(challenge: &PaymentChallenge) -> Result<Value, String> {
     let request_decoded = challenge
         .request
@@ -125,6 +130,9 @@ fn challenge_to_json(challenge: &PaymentChallenge) -> Result<Value, String> {
     if let Some(ref opaque) = challenge.opaque {
         obj["opaque"] =
             opaque_to_json(opaque).map_err(|e| format!("Invalid JSON in opaque: {}", e))?;
+    }
+    if let Some(header) = optional_serialized_field(challenge, "header") {
+        obj["header"] = header;
     }
 
     Ok(obj)
@@ -157,6 +165,9 @@ fn credential_to_json(credential: &PaymentCredential) -> Result<Value, String> {
     }
     if let Some(ref opaque) = credential.challenge.opaque {
         challenge_obj["opaque"] = opaque_to_json(opaque)?;
+    }
+    if let Some(header) = optional_serialized_field(&credential.challenge, "header") {
+        challenge_obj["header"] = header;
     }
 
     let mut obj = json!({
@@ -215,22 +226,31 @@ fn handle_format_www_authenticate(input: &str) {
                 }
             };
 
-            let challenge = PaymentChallenge {
-                id,
-                realm: str_field(&value, "realm"),
-                method: str_field(&value, "method").into(),
-                intent: str_field(&value, "intent").into(),
-                request: request_b64,
-                expires: opt_str_field(&value, "expires"),
-                description: opt_str_field(&value, "description"),
-                digest: opt_str_field(&value, "digest"),
-                opaque: match opt_base64url_json_field(&value, "opaque") {
-                    Ok(opaque) => opaque,
-                    Err(e) => {
-                        print_error(&e, "format_error");
-                        return;
-                    }
-                },
+            let opaque = match opt_base64url_json_field(&value, "opaque") {
+                Ok(opaque) => opaque,
+                Err(e) => {
+                    print_error(&e, "format_error");
+                    return;
+                }
+            };
+            let challenge = json!({
+                "id": id,
+                "realm": str_field(&value, "realm"),
+                "method": str_field(&value, "method"),
+                "intent": str_field(&value, "intent"),
+                "request": request_b64,
+                "expires": opt_str_field(&value, "expires"),
+                "description": opt_str_field(&value, "description"),
+                "digest": opt_str_field(&value, "digest"),
+                "opaque": opaque,
+                "header": opt_str_field(&value, "header"),
+            });
+            let challenge: PaymentChallenge = match serde_json::from_value(challenge) {
+                Ok(challenge) => challenge,
+                Err(e) => {
+                    print_error(&e.to_string(), "format_error");
+                    return;
+                }
             };
 
             match format_www_authenticate(&challenge) {
@@ -255,21 +275,30 @@ fn handle_format_authorization(input: &str) {
                 }
             };
 
-            let challenge_echo = ChallengeEcho {
-                id: str_field(&challenge_val, "id"),
-                realm: str_field(&challenge_val, "realm"),
-                method: str_field(&challenge_val, "method").into(),
-                intent: str_field(&challenge_val, "intent").into(),
-                request: request_b64,
-                expires: opt_str_field(&challenge_val, "expires"),
-                digest: opt_str_field(&challenge_val, "digest"),
-                opaque: match opt_base64url_json_field(&challenge_val, "opaque") {
-                    Ok(opaque) => opaque,
-                    Err(e) => {
-                        print_error(&e, "format_error");
-                        return;
-                    }
-                },
+            let opaque = match opt_base64url_json_field(&challenge_val, "opaque") {
+                Ok(opaque) => opaque,
+                Err(e) => {
+                    print_error(&e, "format_error");
+                    return;
+                }
+            };
+            let challenge_echo = json!({
+                "id": str_field(&challenge_val, "id"),
+                "realm": str_field(&challenge_val, "realm"),
+                "method": str_field(&challenge_val, "method"),
+                "intent": str_field(&challenge_val, "intent"),
+                "request": request_b64,
+                "expires": opt_str_field(&challenge_val, "expires"),
+                "digest": opt_str_field(&challenge_val, "digest"),
+                "opaque": opaque,
+                "header": opt_str_field(&challenge_val, "header"),
+            });
+            let challenge_echo: ChallengeEcho = match serde_json::from_value(challenge_echo) {
+                Ok(challenge) => challenge,
+                Err(e) => {
+                    print_error(&e.to_string(), "format_error");
+                    return;
+                }
             };
 
             let payload_val = value.get("payload").cloned().unwrap_or(json!({}));

@@ -103,6 +103,7 @@ Server verification cases live in `server-verification/`. These call the `server
 ```bash
 make server-verify
 make server-verify-go
+make server-verify-java
 ```
 
 ## Adapters

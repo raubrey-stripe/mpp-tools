@@ -9,6 +9,14 @@ import com.stripe.mpp.ChallengeEcho;
 import com.stripe.mpp.ChallengeId;
 import com.stripe.mpp.Credential;
 import com.stripe.mpp.Receipt;
+import com.stripe.mpp.error.InvalidChallengeException;
+import com.stripe.mpp.error.MalformedCredentialException;
+import com.stripe.mpp.error.PaymentException;
+import com.stripe.mpp.error.PaymentExpiredException;
+import com.stripe.mpp.error.VerificationFailedException;
+import com.stripe.mpp.server.Intent;
+import com.stripe.mpp.server.Verify;
+import com.stripe.mpp.server.VerifyResult;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -48,7 +56,8 @@ public final class Adapter {
         "receipt.format",
         "base64url.encode",
         "base64url.decode",
-        "challenge.id"
+        "challenge.id",
+        "server.verify"
     );
 
     private Adapter() {}
@@ -121,7 +130,89 @@ public final class Adapter {
         if ("challenge.id".equals(op)) {
             return mapOf("id", generateChallengeId(requireMap(input, "challenge id input", "generation_error")));
         }
+        if ("server.verify".equals(op)) {
+            return verifyServerCredential(requireMap(input, "server verify input", "verification_error"));
+        }
         throw new AdapterFailure("unsupported_operation", "Unknown operation: " + op);
+    }
+
+    private static Map<String, Object> verifyServerCredential(Map<String, Object> data)
+        throws AdapterFailure {
+        String method = requiredString(data, "method", "verification_error", false);
+        String intentName = requiredString(data, "intent", "verification_error", false);
+        Map<String, Object> request = requireMap(
+            data.get("request"), "request", "verification_error"
+        );
+        Map<String, Object> credentialData = requireMap(
+            data.get("credential"), "credential", "verification_error"
+        );
+        String authorization = formatCredential(credentialData);
+        String verificationError = optionalString(
+            data, "verificationError", "verification_error"
+        );
+        Object body = data.get("body");
+        if (body != null && !(body instanceof String)) {
+            throw new AdapterFailure("verification_error", "body must be a string or null");
+        }
+
+        Intent intent = new ConformanceIntent(intentName, method, verificationError);
+        try {
+            VerifyResult result = Verify.verifyOrChallenge(
+                authorization,
+                intent,
+                request,
+                requiredString(data, "realm", "verification_error", true),
+                requiredString(data, "secretKey", "verification_error", false),
+                method,
+                null,
+                null,
+                optionalString(data, "expires", "verification_error"),
+                body
+            );
+            if (result instanceof VerifyResult.Verified) {
+                VerifyResult.Verified verified = (VerifyResult.Verified) result;
+                Map<String, Object> value = new LinkedHashMap<>();
+                value.put("ok", true);
+                value.put("receipt", receiptToMap(verified.receipt()));
+                return value;
+            }
+
+            return verificationFailure(challengeFailureType(credentialData));
+        } catch (PaymentException exc) {
+            return verificationFailure(paymentErrorType(exc));
+        } catch (RuntimeException exc) {
+            return verificationFailure("unknown_error");
+        }
+    }
+
+    private static String challengeFailureType(Map<String, Object> credentialData) {
+        try {
+            Map<String, Object> challenge = requireMap(
+                credentialData.get("challenge"), "challenge", "verification_error"
+            );
+            String expires = optionalString(challenge, "expires", "verification_error");
+            if (expires != null && Instant.parse(expires).isBefore(Instant.now())) {
+                return "payment_expired";
+            }
+        } catch (AdapterFailure | RuntimeException ignored) {
+            // A challenged malformed value is normalized as invalid below.
+        }
+        return "invalid_challenge";
+    }
+
+    private static String paymentErrorType(PaymentException exc) {
+        if (exc instanceof MalformedCredentialException) return "malformed_credential";
+        if (exc instanceof InvalidChallengeException) return "invalid_challenge";
+        if (exc instanceof PaymentExpiredException) return "payment_expired";
+        if (exc instanceof VerificationFailedException) return "verification_failed";
+        return "unknown_error";
+    }
+
+    private static Map<String, Object> verificationFailure(String errorType) {
+        Map<String, Object> value = new LinkedHashMap<>();
+        value.put("ok", false);
+        value.put("errorType", errorType);
+        return value;
     }
 
     private static Map<String, Object> parseChallenge(String header) throws AdapterFailure {
@@ -530,6 +621,40 @@ public final class Adapter {
 
     private static void writeJson(Object value) throws IOException {
         System.out.println(MAPPER.writeValueAsString(value));
+    }
+
+    private static final class ConformanceIntent implements Intent {
+        private static final Instant RECEIPT_TIMESTAMP = Instant.parse("2026-01-29T12:00:00Z");
+
+        private final String name;
+        private final String method;
+        private final String verificationError;
+
+        private ConformanceIntent(String name, String method, String verificationError) {
+            this.name = name;
+            this.method = method;
+            this.verificationError = verificationError;
+        }
+
+        @Override
+        public String name() {
+            return name;
+        }
+
+        @Override
+        public Receipt verify(Credential credential, Map<String, Object> request) {
+            if (verificationError != null) {
+                throw new VerificationFailedException(verificationError);
+            }
+            return new Receipt(
+                "success",
+                RECEIPT_TIMESTAMP,
+                "conformance-receipt",
+                method,
+                null,
+                null
+            );
+        }
     }
 
     private static final class AdapterFailure extends Exception {

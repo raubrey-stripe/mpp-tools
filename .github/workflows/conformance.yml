@@ -228,7 +228,7 @@ jobs:
           if-no-files-found: warn
 
   server_verify:
-    name: server verification conformance
+    name: server verification conformance (${{ matrix.adapter }})
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -238,6 +238,10 @@ jobs:
     defaults:
       run:
         working-directory: conformance
+    strategy:
+      fail-fast: false
+      matrix:
+        adapter: [go, java]
     steps:
       - name: Secure runner
         uses: tempoxyz/gh-actions/actions/secure-runner@d39baa2b43f5eba5d261c047521a4fbd56101129 # 2026-09-23T04-31-11Z-d39baa2b
@@ -249,16 +253,16 @@ jobs:
       - name: Setup conformance adapter
         uses: ./.github/actions/setup-conformance
         with:
-          adapter: go
+          adapter: ${{ matrix.adapter }}
 
       - name: Install runner dependencies
         run: uv sync --locked
 
-      - name: Install Go adapter dependencies
-        run: make install-go
+      - name: Install adapter dependencies
+        run: make install-${{ matrix.adapter }}
 
       - name: Run server verification conformance
-        run: uv run --locked python scripts/server_verify_runner.py --adapter go
+        run: uv run --locked python scripts/server_verify_runner.py --adapter "${{ matrix.adapter }}"
 
   conformance:
     runs-on: ubuntu-latest

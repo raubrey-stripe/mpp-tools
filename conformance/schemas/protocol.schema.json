@@ -282,6 +282,12 @@
         "method": { "type": "string", "minLength": 1 },
         "intent": { "type": "string", "minLength": 1 },
         "request": { "$ref": "#/$defs/JsonObject" },
+        "body": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "null" }
+          ]
+        },
         "expires": { "type": "string" },
         "verificationError": { "type": "string" },
         "credential": { "$ref": "#/$defs/Credential" }

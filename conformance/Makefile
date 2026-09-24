@@ -1,7 +1,7 @@
 # Conformance Testing Makefile
 # Cross-SDK protocol compatibility testing for MPP implementations
 
-.PHONY: all update-locks update-java install install-runner install-java use-local-sdk test test-all test-sdk test-typescript test-rust test-python test-go test-ruby test-java test-json flow flow-sdk flow-typescript flow-rust flow-python flow-go flow-ruby flow-java server-verify server-verify-sdk server-verify-go update-flow-golden clean help
+.PHONY: all update-locks update-java install install-runner install-java use-local-sdk test test-all test-sdk test-typescript test-rust test-python test-go test-ruby test-java test-json flow flow-sdk flow-typescript flow-rust flow-python flow-go flow-ruby flow-java server-verify server-verify-sdk server-verify-go server-verify-java update-flow-golden clean help
 
 RUBY ?= ruby
 BUNDLE ?= bundle
@@ -113,6 +113,10 @@ server-verify-sdk:
 server-verify-go:
 	@echo "→ Running Go server verification conformance tests..."
 	$(RUNNER_PYTHON) scripts/server_verify_runner.py --adapter go
+
+server-verify-java:
+	@echo "→ Running Java server verification conformance tests..."
+	$(RUNNER_PYTHON) scripts/server_verify_runner.py --adapter java
 
 flow-typescript:
 	@echo "→ Running TypeScript flow conformance tests..."

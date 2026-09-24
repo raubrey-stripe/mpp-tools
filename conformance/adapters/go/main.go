@@ -53,6 +53,7 @@ type serverVerifyInput struct {
 	Method            string         `json:"method"`
 	Intent            string         `json:"intent"`
 	Request           map[string]any `json:"request"`
+	Body              *string        `json:"body,omitempty"`
 	Expires           string         `json:"expires,omitempty"`
 	VerificationError string         `json:"verificationError,omitempty"`
 	Credential        credentialDTO  `json:"credential"`
@@ -485,6 +486,10 @@ func handleServerVerify(raw json.RawMessage) {
 		return
 	}
 
+	var body any
+	if input.Body != nil {
+		body = *input.Body
+	}
 	result, err := server.VerifyOrChallenge(context.Background(), server.VerifyParams{
 		Authorization: credential.ToAuthorization(),
 		Intent: conformanceIntent{
@@ -493,6 +498,7 @@ func handleServerVerify(raw json.RawMessage) {
 			errorMessage: input.VerificationError,
 		},
 		Request:   input.Request,
+		Body:      body,
 		Realm:     input.Realm,
 		SecretKey: input.SecretKey,
 		Method:    input.Method,

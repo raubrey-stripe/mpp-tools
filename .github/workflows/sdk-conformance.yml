@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       adapter:
-        description: SDK adapter to test, for example rust, ruby, go, python, or typescript. Java is tested by mpp-tools CI only because local SDK override support is not implemented.
+        description: SDK adapter to test, for example rust, ruby, go, python, java, or typescript.
         required: true
         type: string
       conformance-ref:
@@ -52,11 +52,10 @@ jobs:
         run: |
           adapter=$(printf '%s' "$REQUESTED_ADAPTER" | tr '[:upper:]' '[:lower:]')
           case "$adapter" in
-            go|python|ruby|rust|typescript)
+            go|java|python|ruby|rust|typescript)
               ;;
             *)
               echo "Unsupported adapter: $REQUESTED_ADAPTER" >&2
-              echo "Java is intentionally excluded until use_local_sdk.py can point the Java adapter at a local SDK checkout." >&2
               exit 2
               ;;
           esac
@@ -83,6 +82,11 @@ jobs:
       - name: Install conformance runner dependencies
         run: make install-runner
 
+      - name: Build Java SDK checkout
+        if: steps.resolve.outputs.adapter == 'java'
+        working-directory: sdk
+        run: ./gradlew --no-daemon jar
+
       - name: Point adapter at SDK checkout
         run: uv run --locked python scripts/use_local_sdk.py --adapter "$ADAPTER" --sdk-path "$SDK_PATH"
         env:
@@ -102,6 +106,10 @@ jobs:
             go)
               cd adapters/go
               GOTOOLCHAIN=auto go mod download
+              ;;
+            java)
+              cd adapters/java
+              ./gradlew --no-daemon dependencies
               ;;
             python)
               cd adapters/python
@@ -138,7 +146,7 @@ jobs:
           ADAPTER: ${{ steps.resolve.outputs.adapter }}
 
       - name: Run server verification conformance
-        if: steps.resolve.outputs.adapter == 'go'
+        if: steps.resolve.outputs.adapter == 'go' || steps.resolve.outputs.adapter == 'java'
         run: uv run --locked python scripts/server_verify_runner.py --adapter "$ADAPTER"
         env:
           ADAPTER: ${{ steps.resolve.outputs.adapter }}
@@ -152,7 +160,7 @@ jobs:
             echo "- Adapter: \`$ADAPTER\`"
             echo "- SDK checkout: \`$SDK_PATH\`"
             echo "- Flow tests: \`${{ inputs.run-flows }}\`"
-            echo "- Server verification: \`${{ steps.resolve.outputs.adapter == 'go' }}\`"
+            echo "- Server verification: \`${{ steps.resolve.outputs.adapter == 'go' || steps.resolve.outputs.adapter == 'java' }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
         env:
           ADAPTER: ${{ steps.resolve.outputs.adapter }}

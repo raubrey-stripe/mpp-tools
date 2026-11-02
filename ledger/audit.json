@@ -1,0 +1,620 @@
+{
+  "version": 1,
+  "findings": [
+    {
+      "id": "AGR-2026-001",
+      "fingerprint": "capability:http.payment_request",
+      "first_seen": "2026-08-31T16:32:29.681637Z"
+    },
+    {
+      "id": "AGR-2026-002",
+      "fingerprint": "capability:stripe.external_id_binding",
+      "first_seen": "2026-08-31T16:32:29.681637Z"
+    },
+    {
+      "id": "AGR-2026-003",
+      "fingerprint": "capability:tempo.proof.typed_data",
+      "first_seen": "2026-08-31T16:32:29.681637Z"
+    },
+    {
+      "id": "AGR-2026-004",
+      "fingerprint": "vector:authorization/basic_credential/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-005",
+      "fingerprint": "vector:authorization/basic_credential/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-006",
+      "fingerprint": "vector:authorization/basic_credential/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-007",
+      "fingerprint": "vector:authorization/credential_with_expires/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-008",
+      "fingerprint": "vector:authorization/credential_with_source/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-009",
+      "fingerprint": "vector:authorization/credential_with_source/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-010",
+      "fingerprint": "vector:authorization/error_invalid_base64url/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-011",
+      "fingerprint": "vector:authorization/error_invalid_json_structure/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-012",
+      "fingerprint": "vector:authorization/error_missing_challenge/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-013",
+      "fingerprint": "vector:authorization/error_missing_challenge_id/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-014",
+      "fingerprint": "vector:authorization/error_missing_payment_prefix/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-015",
+      "fingerprint": "vector:base64url/empty_string/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-016",
+      "fingerprint": "vector:base64url/empty_string/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-017",
+      "fingerprint": "vector:base64url/empty_string/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-018",
+      "fingerprint": "vector:base64url/hello_world/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-019",
+      "fingerprint": "vector:base64url/hello_world/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-020",
+      "fingerprint": "vector:base64url/hello_world/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-021",
+      "fingerprint": "vector:base64url/invalid_characters_rejected/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-022",
+      "fingerprint": "vector:base64url/invalid_utf8_rejected/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-023",
+      "fingerprint": "vector:base64url/json_object/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-024",
+      "fingerprint": "vector:base64url/json_object/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-025",
+      "fingerprint": "vector:base64url/json_object/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-026",
+      "fingerprint": "vector:base64url/no_padding/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-027",
+      "fingerprint": "vector:base64url/no_padding/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-028",
+      "fingerprint": "vector:base64url/no_padding/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-029",
+      "fingerprint": "vector:base64url/padding_1_byte/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-030",
+      "fingerprint": "vector:base64url/padding_1_byte/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-031",
+      "fingerprint": "vector:base64url/padding_1_byte/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-032",
+      "fingerprint": "vector:base64url/padding_2_bytes/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-033",
+      "fingerprint": "vector:base64url/padding_2_bytes/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-034",
+      "fingerprint": "vector:base64url/padding_2_bytes/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-035",
+      "fingerprint": "vector:base64url/special_ascii/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-036",
+      "fingerprint": "vector:base64url/special_ascii/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-037",
+      "fingerprint": "vector:base64url/special_ascii/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-038",
+      "fingerprint": "vector:base64url/url_chars/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-039",
+      "fingerprint": "vector:base64url/url_chars/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-040",
+      "fingerprint": "vector:base64url/url_chars/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-041",
+      "fingerprint": "vector:base64url/url_safe_chars/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-042",
+      "fingerprint": "vector:base64url/url_safe_chars/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-043",
+      "fingerprint": "vector:base64url/url_safe_chars/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-044",
+      "fingerprint": "vector:base64url/whitespace/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-045",
+      "fingerprint": "vector:base64url/whitespace/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-046",
+      "fingerprint": "vector:base64url/whitespace/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-047",
+      "fingerprint": "vector:challenge-id/basic_charge/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-048",
+      "fingerprint": "vector:challenge-id/description_not_in_hmac/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-049",
+      "fingerprint": "vector:challenge-id/different_intent/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-050",
+      "fingerprint": "vector:challenge-id/different_method/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-051",
+      "fingerprint": "vector:challenge-id/different_realm/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-052",
+      "fingerprint": "vector:challenge-id/different_secret_different_id/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-053",
+      "fingerprint": "vector:challenge-id/empty_request/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-054",
+      "fingerprint": "vector:challenge-id/empty_request_alt_secret/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-055",
+      "fingerprint": "vector:challenge-id/error_weak_secret_key/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-056",
+      "fingerprint": "vector:challenge-id/external_id_request_binding/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-057",
+      "fingerprint": "vector:challenge-id/fee_payer_policy_binding/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-058",
+      "fingerprint": "vector:challenge-id/full_challenge_alt_secret/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-059",
+      "fingerprint": "vector:challenge-id/html_sensitive_request_canonicalization/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-060",
+      "fingerprint": "vector:challenge-id/mixed_case_key_ordering/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-061",
+      "fingerprint": "vector:challenge-id/multi_field_request/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-062",
+      "fingerprint": "vector:challenge-id/nested_method_details/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-063",
+      "fingerprint": "vector:challenge-id/nested_method_details_alt_secret/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-064",
+      "fingerprint": "vector:challenge-id/opaque_route_scope_binding/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-065",
+      "fingerprint": "vector:challenge-id/required_fields_only/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-066",
+      "fingerprint": "vector:challenge-id/resource_path_query_binding/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-067",
+      "fingerprint": "vector:challenge-id/unicode_in_description/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-068",
+      "fingerprint": "vector:challenge-id/with_digest/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-069",
+      "fingerprint": "vector:challenge-id/with_digest_alt_secret/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-070",
+      "fingerprint": "vector:challenge-id/with_expires/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-071",
+      "fingerprint": "vector:challenge-id/with_expires_alt_secret/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-072",
+      "fingerprint": "vector:challenge-id/with_expires_and_digest/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-073",
+      "fingerprint": "vector:challenge-id/with_opaque/generate",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-074",
+      "fingerprint": "vector:receipt/error_invalid_base64url/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-075",
+      "fingerprint": "vector:receipt/error_invalid_json/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-076",
+      "fingerprint": "vector:receipt/error_missing_method/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-077",
+      "fingerprint": "vector:receipt/error_missing_reference/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-078",
+      "fingerprint": "vector:receipt/error_missing_status/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-079",
+      "fingerprint": "vector:receipt/error_missing_timestamp/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-080",
+      "fingerprint": "vector:receipt/error_non_iso8601_timestamp/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-081",
+      "fingerprint": "vector:receipt/success_receipt/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-082",
+      "fingerprint": "vector:receipt/success_receipt/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-083",
+      "fingerprint": "vector:receipt/success_receipt/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-084",
+      "fingerprint": "vector:tempo-proof/zero_amount_proof_shape/operation",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-085",
+      "fingerprint": "vector:www-authenticate/basic_challenge/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-086",
+      "fingerprint": "vector:www-authenticate/basic_challenge/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-087",
+      "fingerprint": "vector:www-authenticate/basic_challenge/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-088",
+      "fingerprint": "vector:www-authenticate/case_insensitive_scheme/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-089",
+      "fingerprint": "vector:www-authenticate/empty_request/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-090",
+      "fingerprint": "vector:www-authenticate/empty_request/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-091",
+      "fingerprint": "vector:www-authenticate/empty_request/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-092",
+      "fingerprint": "vector:www-authenticate/error_crlf_in_description_format/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-093",
+      "fingerprint": "vector:www-authenticate/error_duplicate_parameters/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-094",
+      "fingerprint": "vector:www-authenticate/error_empty_header/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-095",
+      "fingerprint": "vector:www-authenticate/error_empty_id/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-096",
+      "fingerprint": "vector:www-authenticate/error_empty_id_format/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-097",
+      "fingerprint": "vector:www-authenticate/error_invalid_base64url/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-098",
+      "fingerprint": "vector:www-authenticate/error_invalid_json/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-099",
+      "fingerprint": "vector:www-authenticate/error_missing_id/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-100",
+      "fingerprint": "vector:www-authenticate/error_missing_intent/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-101",
+      "fingerprint": "vector:www-authenticate/error_missing_method/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-102",
+      "fingerprint": "vector:www-authenticate/error_missing_payment_prefix/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-103",
+      "fingerprint": "vector:www-authenticate/error_missing_realm/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-104",
+      "fingerprint": "vector:www-authenticate/error_missing_request/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-105",
+      "fingerprint": "vector:www-authenticate/error_oversized_request_parameter/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-106",
+      "fingerprint": "vector:www-authenticate/error_scheme_only/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-107",
+      "fingerprint": "vector:www-authenticate/escaped_backslashes_in_description/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-108",
+      "fingerprint": "vector:www-authenticate/escaped_backslashes_in_description/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-109",
+      "fingerprint": "vector:www-authenticate/escaped_backslashes_in_description/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-110",
+      "fingerprint": "vector:www-authenticate/escaped_quotes_in_description/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-111",
+      "fingerprint": "vector:www-authenticate/escaped_quotes_in_description/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-112",
+      "fingerprint": "vector:www-authenticate/escaped_quotes_in_description/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-113",
+      "fingerprint": "vector:www-authenticate/full_challenge/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-114",
+      "fingerprint": "vector:www-authenticate/full_challenge/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-115",
+      "fingerprint": "vector:www-authenticate/nested_request/format",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-116",
+      "fingerprint": "vector:www-authenticate/nested_request/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-117",
+      "fingerprint": "vector:www-authenticate/nested_request/roundtrip",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-118",
+      "fingerprint": "vector:www-authenticate/parameter_order_independence/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-119",
+      "fingerprint": "vector:www-authenticate/payment_keyword_in_quoted_description/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-120",
+      "fingerprint": "vector:www-authenticate/payment_keyword_in_quoted_realm/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-121",
+      "fingerprint": "vector:www-authenticate/unescaped_quotes_in_description/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-122",
+      "fingerprint": "vector:www-authenticate/unknown_extension_parameter/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    },
+    {
+      "id": "AGR-2026-123",
+      "fingerprint": "vector:www-authenticate/whitespace_tolerance/parse",
+      "first_seen": "2026-11-02T19:01:15.016525Z"
+    }
+  ]
+}
